@@ -1,0 +1,24 @@
+{
+  "name": "samebase",
+  "owner": {
+    "name": "Samebase"
+  },
+  "description": "Samebase plugins for local AI coding agents.",
+  "plugins": [
+    {
+      "name": "samebase",
+      "displayName": "Samebase",
+      "source": "./plugins/samebase",
+      "description": "Create Samebase apps through MCP and continue development locally.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Samebase"
+      },
+      "homepage": "https://samebase.com",
+      "repository": "https://github.com/samebase/agent-plugins",
+      "category": "Developer Tools",
+      "tags": ["samebase", "mcp", "github", "convex", "cloudflare"]
+    }
+  ]
+}
+

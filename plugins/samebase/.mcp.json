@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "samebase": {
+      "type": "http",
+      "url": "https://samebase.com/mcp",
+      "note": "Samebase OAuth MCP server for creating and listing Samebase apps. Authenticate from /mcp when Claude Code prompts for access."
+    }
+  }
+}
+

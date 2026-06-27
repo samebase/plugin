@@ -1,0 +1,14 @@
+{
+  "name": "samebase",
+  "displayName": "Samebase",
+  "description": "Create Samebase apps through MCP and continue development locally.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Samebase"
+  },
+  "homepage": "https://samebase.com",
+  "repository": "https://github.com/samebase/agent-plugins",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
+
