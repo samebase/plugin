@@ -27,6 +27,14 @@ Install the plugin:
 /reload-plugins
 ```
 
+Update an existing install after a new release:
+
+```text
+/plugin marketplace update
+/plugin install samebase@samebase
+/reload-plugins
+```
+
 Authenticate the Samebase MCP server from Claude Code's MCP UI if prompted:
 
 ```text
@@ -53,6 +61,13 @@ Install the plugin:
 codex plugin add samebase@samebase
 ```
 
+Update an existing install after a new release:
+
+```bash
+codex plugin marketplace upgrade samebase
+codex plugin add samebase@samebase
+```
+
 Start a new Codex thread after installing so the plugin skill and MCP server are loaded.
 
 ## Repository Layout
@@ -65,4 +80,3 @@ codex/plugins/samebase/               Codex plugin
 ```
 
 The two plugin packages intentionally duplicate a small amount of text. That keeps this first version easy to inspect and avoids a build step until there is enough shared content to justify one.
-
