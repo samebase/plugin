@@ -1,6 +1,6 @@
 {
   "name": "samebase",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create Samebase apps through MCP and continue development locally.",
   "author": {
     "name": "Samebase",
@@ -19,10 +19,11 @@
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Write"],
     "websiteURL": "https://samebase.com",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png",
     "defaultPrompt": [
       "Create or open a Samebase app, then continue development in its local GitHub repository"
     ],
     "brandColor": "#111827"
   }
 }
-
