@@ -1,6 +1,6 @@
 {
   "name": "samebase",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create Samebase apps through MCP and continue development locally.",
   "author": {
     "name": "Samebase",
