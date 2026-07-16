@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "samebase": {
-      "type": "http",
-      "url": "https://api.samebase.com/mcp",
-      "note": "Samebase OAuth MCP server for creating and listing Samebase apps. Authenticate when Codex prompts for access."
-    }
-  }
-}

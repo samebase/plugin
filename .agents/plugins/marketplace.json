@@ -8,7 +8,7 @@
       "name": "samebase",
       "source": {
         "source": "local",
-        "path": "./codex/plugins/samebase"
+        "path": "./plugins/samebase"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -18,4 +18,3 @@
     }
   ]
 }
-
