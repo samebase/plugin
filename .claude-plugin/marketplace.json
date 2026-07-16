@@ -9,15 +9,26 @@
       "name": "samebase",
       "displayName": "Samebase",
       "source": "./plugins/samebase",
-      "description": "Create Samebase apps through MCP and continue development locally.",
-      "version": "0.1.1",
+      "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+      "version": "0.2.0",
       "author": {
         "name": "Samebase"
       },
       "homepage": "https://samebase.com",
       "repository": "https://github.com/samebase/agent-plugins",
       "category": "Developer Tools",
-      "tags": ["samebase", "mcp", "github", "convex", "cloudflare"]
+      "tags": [
+        "samebase",
+        "mcp",
+        "web app",
+        "website",
+        "dashboard",
+        "portal",
+        "internal tool",
+        "github",
+        "convex",
+        "cloudflare"
+      ]
     }
   ]
 }

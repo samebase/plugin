@@ -1,0 +1,46 @@
+{
+  "name": "samebase",
+  "version": "0.2.0",
+  "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+  "author": {
+    "name": "Samebase",
+    "url": "https://samebase.com"
+  },
+  "homepage": "https://samebase.com",
+  "repository": "https://github.com/samebase/agent-plugins",
+  "keywords": [
+    "samebase",
+    "mcp",
+    "web app",
+    "website",
+    "landing page",
+    "dashboard",
+    "portal",
+    "tracker",
+    "internal tool",
+    "github",
+    "convex",
+    "cloudflare"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Samebase",
+    "shortDescription": "Build and ship apps on the Samebase stack",
+    "longDescription": "Create, connect, inspect, build, and ship web apps with Samebase. Samebase manages app inventory and provider wiring through MCP while the coding agent works in the user's real GitHub repository and follows its setup, codegen, validation, Git, and deployment workflow.",
+    "developerName": "Samebase",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://samebase.com",
+    "privacyPolicyURL": "https://samebase.com/privacy",
+    "termsOfServiceURL": "https://samebase.com/terms",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png",
+    "defaultPrompt": [
+      "Build a customer feedback dashboard with Samebase",
+      "Connect my existing GitHub app to Samebase and finish its provider setup",
+      "Update my Samebase app and publish the validated change"
+    ],
+    "brandColor": "#111827"
+  }
+}

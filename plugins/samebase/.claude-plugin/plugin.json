@@ -1,8 +1,8 @@
 {
   "name": "samebase",
   "displayName": "Samebase",
-  "description": "Create Samebase apps through MCP and continue development locally.",
-  "version": "0.1.1",
+  "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+  "version": "0.2.0",
   "author": {
     "name": "Samebase"
   },
