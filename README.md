@@ -2,6 +2,12 @@
 
 Local agent integrations for Samebase.
 
+This repository is generated from
+[`packages/agent-plugins`](https://github.com/samebase/samebase/tree/main/packages/agent-plugins) in
+[`samebase/samebase`](https://github.com/samebase/samebase). The source repository publishes this
+directory only after its CI checks pass. Make source changes in the monorepo. Do not edit this
+generated repository directly.
+
 This repository packages the Samebase MCP server and two workflow skills for coding agents. The goal
 is to make the complete GitHub-backed app loop clear:
 
@@ -100,5 +106,5 @@ declaration, icon, and skill tree, so the workflow cannot drift between Codex an
 Validate the complete package with:
 
 ```bash
-pnpm check
+node ./scripts/check.ts
 ```
