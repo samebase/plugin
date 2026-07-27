@@ -10,7 +10,6 @@
       "displayName": "Samebase",
       "source": "./plugins/samebase",
       "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
-      "version": "0.2.1",
       "author": {
         "name": "Samebase"
       },

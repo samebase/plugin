@@ -2,8 +2,7 @@
   "mcpServers": {
     "samebase": {
       "type": "http",
-      "url": "https://api.samebase.com/mcp",
-      "note": "Samebase OAuth MCP server for app inventory, repository creation or import, provider attachment and wiring, infrastructure verification, and repair. Authenticate from /mcp when Claude Code prompts for access."
+      "url": "https://api.samebase.com/mcp"
     }
   }
 }

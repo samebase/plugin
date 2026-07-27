@@ -1,7 +1,8 @@
 {
   "name": "samebase-agent-plugins",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "check": "node ./scripts/check.ts"

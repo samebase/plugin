@@ -33,16 +33,16 @@ check(
   packageMetadata.version === claudeManifest.version,
   "The package version must match the Claude manifest.",
 );
-check(
-  packageMetadata.version === claudeMarketplacePlugin.version,
-  "The package version must match the Claude marketplace.",
-);
 check(codexManifest.version === claudeManifest.version, "Codex and Claude versions must match.");
+check(packageMetadata.license === "Apache-2.0", "The package must declare the Apache-2.0 license.");
 check(
-  claudeMarketplacePlugin.version === claudeManifest.version,
-  "The Claude marketplace version must match the plugin manifests.",
+  codexManifest.license === packageMetadata.license,
+  "The Codex manifest license must match the package.",
 );
 check(mcp.mcpServers.samebase.url === "https://api.samebase.com/mcp", "Unexpected MCP endpoint.");
+checkRelativePath(root, "LICENSE", "License");
+checkRelativePath(root, "NOTICE", "License notice");
+checkRelativePath(root, "SECURITY.md", "Security policy");
 
 const codexMarketplaceSource = codexMarketplacePlugin.source;
 check(codexMarketplaceSource.source === "local", "The Codex marketplace source must be local.");

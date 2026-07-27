@@ -1,12 +1,11 @@
 # Samebase Agent Plugins
 
-Local agent integrations for Samebase.
+Samebase integrations for ChatGPT, Codex, and Claude Code.
 
-This repository is generated from
-[`packages/agent-plugins`](https://github.com/samebase/samebase/tree/main/packages/agent-plugins) in
-[`samebase/samebase`](https://github.com/samebase/samebase). The source repository publishes this
-directory only after its CI checks pass. Make source changes in the monorepo. Do not edit this
-generated repository directly.
+This repository is generated from the private Samebase monorepo and published only after its CI
+checks pass. Do not edit this generated repository directly. Use
+[GitHub Issues](https://github.com/samebase/agent-plugins/issues) to request a change or report a
+problem.
 
 This repository packages the Samebase MCP server and two workflow skills for coding agents. The goal
 is to make the complete GitHub-backed app loop clear:
@@ -34,6 +33,47 @@ The live MCP action catalog and [samebase.com/llms.txt](https://samebase.com/llm
 product source of truth. The plugin carries workflow and routing guidance instead of copying every
 action contract.
 
+## First Use
+
+The plugin installs one MCP server named `samebase`. Do not add `https://api.samebase.com/mcp` as a
+second manual MCP server.
+
+After installation or an update, start a new chat or CLI session and ask:
+
+```text
+Use Samebase to list my apps.
+```
+
+Authenticate when the client prompts for access. If authentication appears under more than one
+Samebase server, remove the manual connection and keep the server supplied by this plugin.
+
+## ChatGPT and Codex
+
+Samebase is being prepared for the public Plugins Directory shared by ChatGPT and Codex. When the
+listing is available, install Samebase from **Plugins** in ChatGPT Work or Codex, then start a new
+chat.
+
+For direct Codex installation from this repository, add the marketplace:
+
+```bash
+codex plugin marketplace add samebase/agent-plugins
+```
+
+Install the plugin:
+
+```bash
+codex plugin add samebase@samebase
+```
+
+Update an existing direct install after a new release:
+
+```bash
+codex plugin marketplace upgrade samebase
+codex plugin add samebase@samebase
+```
+
+Start a new Codex task after installing so the plugin skills and MCP server are loaded.
+
 ## Claude Code
 
 Add the marketplace:
@@ -52,8 +92,8 @@ Install the plugin:
 Update an existing install after a new release:
 
 ```text
-/plugin marketplace update
-/plugin install samebase@samebase
+/plugin marketplace update samebase
+/plugin update samebase@samebase
 /reload-plugins
 ```
 
@@ -68,29 +108,6 @@ During plugin development, test the local plugin directly:
 ```bash
 claude --plugin-dir ./plugins/samebase
 ```
-
-## Codex
-
-Add the marketplace:
-
-```bash
-codex plugin marketplace add samebase/agent-plugins
-```
-
-Install the plugin:
-
-```bash
-codex plugin add samebase@samebase
-```
-
-Update an existing install after a new release:
-
-```bash
-codex plugin marketplace upgrade samebase
-codex plugin add samebase@samebase
-```
-
-Start a new Codex thread after installing so the plugin skill and MCP server are loaded.
 
 ## Repository Layout
 
@@ -108,3 +125,10 @@ Validate the complete package with:
 ```bash
 node ./scripts/check.ts
 ```
+
+## Support and Security
+
+Use [GitHub Issues](https://github.com/samebase/agent-plugins/issues) for support and non-sensitive
+bug reports. Follow [SECURITY.md](SECURITY.md) for private vulnerability reports.
+
+This repository is licensed under the [Apache License 2.0](LICENSE).
