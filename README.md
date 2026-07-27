@@ -91,6 +91,7 @@ Start a new Codex thread after installing so the plugin skill and MCP server are
 ```text
 .claude-plugin/marketplace.json       Claude Code marketplace catalog
 .agents/plugins/marketplace.json      Codex marketplace catalog
+package.json                          Package metadata and check command
 plugins/samebase/                     Shared Claude Code and Codex plugin
 ```
 
@@ -99,5 +100,5 @@ declaration, icon, and skill tree, so the workflow cannot drift between Codex an
 Validate the complete package with:
 
 ```bash
-node scripts/check.mjs
+pnpm check
 ```
