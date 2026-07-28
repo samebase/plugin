@@ -11,6 +11,16 @@ description:
 Ship the exact validated source through the app repository's Git workflow, then prove the resulting
 provider state before reporting success.
 
+## Scope gate
+
+Do not call Samebase MCP when the user explicitly excludes Samebase, requests only Git or GitHub
+work, or requests a standalone provider resource. Use the available GitHub or provider capability
+for that work.
+
+If the user asks to delete a Samebase app or provider resource, do not perform the deletion through
+this plugin or a provider capability. The plugin has no deletion action. Explain that the user must
+use the Samebase dashboard, and do not claim that a resource was removed.
+
 ## Communicate clearly
 
 Keep commits, provider IDs, build trigger details, access tokens, and deployment polling out of
@@ -19,8 +29,9 @@ shipping begins, then return the live or preview URL and the result that was act
 
 ## Git-backed publish sequence
 
-1. Confirm that publishing is in scope and that the current source still matches the successful
-   validation. Do not turn a local-only request into an external push.
+1. Confirm that publishing is in scope. If the current task has no successful validation, first use
+   `samebase-building` to validate the local repository. Confirm that the source still matches that
+   successful validation. Do not turn a local-only request into an external push.
 2. Follow the repository's instructions for branches, commits, pull requests, and default-branch
    delivery. Prefer a reviewable branch or pull request unless the user or repository explicitly
    uses direct default-branch pushes.

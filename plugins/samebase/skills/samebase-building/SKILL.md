@@ -11,6 +11,16 @@ description:
 Create or identify the app through Samebase, then implement and validate the requested product in
 its real local GitHub repository.
 
+## Scope gate
+
+Do not call Samebase MCP when the user explicitly excludes Samebase, requests only Git or GitHub
+work, or requests a standalone provider resource. Use the available GitHub or provider capability
+for that work.
+
+If the user asks to delete a Samebase app or provider resource, do not perform the deletion through
+this plugin or a provider capability. The plugin has no deletion action. Explain that the user must
+use the Samebase dashboard, and do not claim that a resource was removed.
+
 ## Communicate clearly
 
 Talk about the user's app, visible progress, choices, and results. Keep access scopes, provider IDs,
