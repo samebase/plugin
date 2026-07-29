@@ -7,7 +7,7 @@ checks pass. Do not edit this generated repository directly. Use
 [GitHub Issues](https://github.com/samebase/agent-plugins/issues) to request a change or report a
 problem.
 
-This repository packages the Samebase MCP server and two workflow skills for coding agents. The goal
+This repository packages the Samebase MCP server and one workflow skill for coding agents. The goal
 is to make the complete GitHub-backed app loop clear:
 
 1. Create or select a Samebase app through MCP.
@@ -22,12 +22,9 @@ The plugin does not turn chat into a hosted development environment. Samebase pr
 inventory, repository and provider wiring, and MCP tools. The coding agent works in the user's local
 GitHub repository, and Git commits remain the version identity.
 
-The two skills divide the journey by responsibility:
-
-- `samebase-building` creates, connects, or inspects the app, then implements and validates changes
-  in the local repository.
-- `samebase-hosting` ships the exact validated source through Git, observes deployment state, and
-  hands provider-direct operations to the correct provider.
+The `samebase` skill covers the complete journey. It selects or creates the app, preserves its
+provider identity, guides work in the GitHub repository, and verifies deployment state after an
+authorized publish.
 
 The live MCP action catalog and [samebase.com/llms.txt](https://samebase.com/llms.txt) are the
 product source of truth. The plugin carries workflow and routing guidance instead of copying every

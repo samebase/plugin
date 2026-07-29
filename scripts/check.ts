@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -61,20 +61,15 @@ checkRelativePath(pluginRoot, codexManifest.mcpServers, "Codex MCP path");
 checkRelativePath(pluginRoot, claudeManifest.skills, "Claude skills path");
 checkRelativePath(pluginRoot, claudeManifest.mcpServers, "Claude MCP path");
 
-const sharedSkillFiles = [
-  "samebase-building/SKILL.md",
-  "samebase-building/references/control-plane.md",
-  "samebase-building/references/local-repository.md",
-  "samebase-hosting/SKILL.md",
-  "samebase-hosting/references/git-delivery.md",
-  "samebase-hosting/references/provider-boundaries.md",
-];
+const skillsRoot = resolve(pluginRoot, "skills");
+const skillDirectories = readdirSync(skillsRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
 
-for (const relativePath of sharedSkillFiles) {
-  check(
-    existsSync(resolve(pluginRoot, "skills", relativePath)),
-    `Missing skill file: ${relativePath}`,
-  );
-}
+check(
+  skillDirectories.length === 1 && skillDirectories[0] === "samebase",
+  "The plugin must contain only the samebase skill.",
+);
+checkRelativePath(skillsRoot, "samebase/SKILL.md", "Samebase skill");
 
 console.log("Agent plugin checks passed.");
