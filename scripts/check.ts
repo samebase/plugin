@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -71,5 +71,58 @@ check(
   "The plugin must contain only the samebase skill.",
 );
 checkRelativePath(skillsRoot, "samebase/SKILL.md", "Samebase skill");
+
+const samebaseSkill = readFileSync(resolve(skillsRoot, "samebase/SKILL.md"), "utf8").replace(
+  /\s+/g,
+  " ",
+);
+check(
+  samebaseSkill.includes(
+    "For stack-alignment work, compare the target with the generated app and, when accessible, current Samebase package scripts, configuration, dependencies, lock file, CI, and provider commands before edits.",
+  ),
+  "The Samebase skill must compare the target, Samebase, and the generated app before edits.",
+);
+for (const requiredToolchainGroup of [
+  "runtime and package manager",
+  "command surface",
+  "lint and format rules",
+  "tests and type checks",
+  "framework and deploy adapters",
+  "shared version pins",
+]) {
+  check(
+    samebaseSkill.includes(requiredToolchainGroup),
+    `The Samebase skill stack-alignment contract must include ${requiredToolchainGroup}.`,
+  );
+}
+check(
+  samebaseSkill.includes(
+    "If private Samebase source is unavailable, record that gap and use the portable baseline: Node 24, ESM, TypeScript automation, Vite+ dev, build, and tests, Oxlint and Oxfmt through Vite+, explicit type checks, and the real provider build path.",
+  ),
+  "The Samebase skill must provide the portable stack baseline when private source is unavailable.",
+);
+check(
+  samebaseSkill.includes(
+    "Classify every difference as alignment, a proven target constraint, an investigation, or one exact tested exception before implementation.",
+  ),
+  "The Samebase skill must classify every toolchain difference before implementation.",
+);
+const scopeGateIndex = samebaseSkill.indexOf(
+  "Do not use Samebase for unrelated Git work or standalone provider resources. A standalone Cloudflare Worker means no Samebase.",
+);
+const positiveRouteIndex = samebaseSkill.indexOf(
+  "For an app-inventory request, call only the Samebase app inventory.",
+);
+check(scopeGateIndex >= 0, "The Samebase skill must exclude unrelated and standalone work.");
+check(
+  positiveRouteIndex >= 0 && scopeGateIndex < positiveRouteIndex,
+  "The Samebase skill exclusions must precede its positive action routes.",
+);
+check(
+  samebaseSkill.includes(
+    "The complete sequence contains only inventory, create, and inventory polls. Call create directly after inventory. Do not list Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare provider.",
+  ),
+  "The Samebase skill must keep managed app creation on its closed tool sequence.",
+);
 
 console.log("Agent plugin checks passed.");
