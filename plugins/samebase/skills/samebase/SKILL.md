@@ -52,13 +52,18 @@ or copy tool schemas into this skill.
 2. Reuse the exact app, repository, and attachment IDs. Treat all returned IDs as opaque.
 3. Create a new app only when the user needs one. Use a private repository unless the user asks for
    a public repository.
-4. Connect an existing GitHub repository when it is not in Samebase. A connection does not attach
-   Convex or Cloudflare.
+4. Connect an existing GitHub repository at the start of adoption when it is not in Samebase. This
+   gives Samebase the source state without attaching Convex or Cloudflare.
 
 ## Verify state
 
 - Treat source setup and provider setup as separate states. Source work can continue while provider
   setup is incomplete.
+- Prepare the repository before provider setup that can start a production build by default. An
+  operator may approve earlier provider setup for an experimental app and accept a failed build as
+  diagnostic evidence. It is not deployment success. Use the
+  [existing repository adoption reference](references/existing-repository-adoption.md) for this
+  decision and the first-deployment preview observation.
 - Reread inventory after each attachment, configuration, or repair action.
 - A started run, requested build, commit, or push is not proof of a live deployment.
 - Before a write sequence that can start or request a production build, name that effect and get

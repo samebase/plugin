@@ -71,6 +71,11 @@ check(
   "The plugin must contain only the samebase skill.",
 );
 checkRelativePath(skillsRoot, "samebase/SKILL.md", "Samebase skill");
+checkRelativePath(
+  skillsRoot,
+  "samebase/references/existing-repository-adoption.md",
+  "Existing repository adoption reference",
+);
 
 const samebaseSkill = readFileSync(resolve(skillsRoot, "samebase/SKILL.md"), "utf8").replace(
   /\s+/g,
@@ -117,6 +122,18 @@ check(
     ) &&
     samebaseSkill.includes("Ask again if one of those facts or the approved scope changes."),
   "The Samebase skill must require informed approval for a production-build sequence.",
+);
+check(
+  samebaseSkill.includes(
+    "Connect an existing GitHub repository at the start of adoption when it is not in Samebase.",
+  ) &&
+    samebaseSkill.includes(
+      "Prepare the repository before provider setup that can start a production build by default.",
+    ) &&
+    samebaseSkill.includes(
+      "An operator may approve earlier provider setup for an experimental app and accept a failed build as diagnostic evidence.",
+    ),
+  "The Samebase skill must connect an existing repository early and keep provider timing operator-owned.",
 );
 const scopeGateIndex = samebaseSkill.indexOf(
   "Do not use Samebase for unrelated Git work or standalone provider resources. A standalone Cloudflare Worker means no Samebase.",
