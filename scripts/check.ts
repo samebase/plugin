@@ -77,16 +77,17 @@ const samebaseSkill = readFileSync(resolve(skillsRoot, "samebase/SKILL.md"), "ut
   " ",
 );
 check(
-  samebaseSkill.includes(
-    "For stack-alignment work, compare the target with the generated app and, when accessible, current Samebase package scripts, configuration, dependencies, lock file, CI, and provider commands before edits.",
-  ),
-  "The Samebase skill must compare the target, Samebase, and the generated app before edits.",
+  samebaseSkill.includes("[samebase/app](https://github.com/samebase/app)") &&
+    samebaseSkill.includes("canonical minimal reference for a Samebase-ready repository"),
+  "The Samebase skill must use the public app as its canonical stack-alignment reference.",
 );
 for (const requiredToolchainGroup of [
-  "runtime and package manager",
+  "runtime",
+  "package manager",
   "command surface",
   "lint and format rules",
-  "tests and type checks",
+  "tests",
+  "type checks",
   "framework and deploy adapters",
   "shared version pins",
 ]) {
@@ -97,13 +98,7 @@ for (const requiredToolchainGroup of [
 }
 check(
   samebaseSkill.includes(
-    "If private Samebase source is unavailable, record that gap and use the portable baseline: Node 24, ESM, TypeScript automation, Vite+ dev, build, and tests, Oxlint and Oxfmt through Vite+, explicit type checks, and the real provider build path.",
-  ),
-  "The Samebase skill must provide the portable stack baseline when private source is unavailable.",
-);
-check(
-  samebaseSkill.includes(
-    "Classify every difference as alignment, a proven target constraint, an investigation, or one exact tested exception before implementation.",
+    "Classify each difference as alignment, a proven target constraint, an investigation, or one tested exception.",
   ),
   "The Samebase skill must classify every toolchain difference before implementation.",
 );
