@@ -102,6 +102,22 @@ check(
   ),
   "The Samebase skill must classify every toolchain difference before implementation.",
 );
+check(
+  samebaseSkill.includes(
+    "Keep validation proportionate to the project and the migration risk. Discuss material cost and coverage tradeoffs with the operator.",
+  ) && samebaseSkill.includes("Do not turn Samebase adoption into an unrelated testing upgrade."),
+  "The Samebase skill must keep validation proportionate and operator-informed.",
+);
+check(
+  samebaseSkill.includes(
+    "Before a write sequence that can start or request a production build, name that effect and get explicit approval.",
+  ) &&
+    samebaseSkill.includes(
+      "One approval can cover the named sequence when the repository, provider account, possible production effect, and rule for attaching an existing resource or creating a new one are clear.",
+    ) &&
+    samebaseSkill.includes("Ask again if one of those facts or the approved scope changes."),
+  "The Samebase skill must require informed approval for a production-build sequence.",
+);
 const scopeGateIndex = samebaseSkill.indexOf(
   "Do not use Samebase for unrelated Git work or standalone provider resources. A standalone Cloudflare Worker means no Samebase.",
 );

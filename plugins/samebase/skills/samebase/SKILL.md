@@ -61,6 +61,10 @@ or copy tool schemas into this skill.
   setup is incomplete.
 - Reread inventory after each attachment, configuration, or repair action.
 - A started run, requested build, commit, or push is not proof of a live deployment.
+- Before a write sequence that can start or request a production build, name that effect and get
+  explicit approval. One approval can cover the named sequence when the repository, provider
+  account, possible production effect, and rule for attaching an existing resource or creating a new
+  one are clear. Ask again if one of those facts or the approved scope changes.
 
 ## Work in the repository
 
@@ -76,6 +80,10 @@ type checks, lint and format rules, tests, framework and deploy adapters, CI, an
 pins. Classify each difference as alignment, a proven target constraint, an investigation, or one
 tested exception. Samebase is the first baseline, not an unquestioned authority. Carry target
 findings back when they improve the public reference.
+
+Keep validation proportionate to the project and the migration risk. Discuss material cost and
+coverage tradeoffs with the operator. Do not turn Samebase adoption into an unrelated testing
+upgrade.
 
 Treat authored `.js`, `.mjs`, and `.cjs` files and direct ESLint, Prettier, Vitest, or Vite runners
 as review smells. Keep an exception only for one named tool or runtime boundary that cannot use the
