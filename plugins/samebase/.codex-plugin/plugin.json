@@ -1,7 +1,7 @@
 {
   "name": "samebase",
-  "version": "0.2.16",
-  "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+  "version": "0.2.18",
+  "description": "Build and ship web apps with Samebase through a GitHub repository, Convex backend, and Cloudflare Workers delivery.",
   "author": {
     "name": "Samebase",
     "url": "https://samebase.com"
@@ -39,8 +39,7 @@
     "logo": "./assets/icon.png",
     "defaultPrompt": [
       "Show me my Samebase apps and their setup status.",
-      "Which Cloudflare accounts are connected to my Samebase account?",
-      "Open my Samebase dashboard in the in-app browser."
+      "Which Cloudflare accounts are connected to my Samebase account?"
     ],
     "brandColor": "#111827"
   }
