@@ -3,7 +3,7 @@
   "owner": {
     "name": "Samebase"
   },
-  "description": "Samebase plugins for local AI coding agents.",
+  "description": "Samebase plugin for local AI coding agents.",
   "plugins": [
     {
       "name": "samebase",
@@ -14,7 +14,7 @@
         "name": "Samebase"
       },
       "homepage": "https://samebase.com",
-      "repository": "https://github.com/samebase/agent-plugins",
+      "repository": "https://github.com/samebase/plugin",
       "category": "Developer Tools",
       "tags": [
         "samebase",

@@ -1,11 +1,10 @@
-# Samebase Agent Plugins
+# Samebase Plugin
 
 Samebase integrations for ChatGPT, Codex, and Claude Code.
 
 This repository is generated from the private Samebase monorepo and published only after its CI
 checks pass. Do not edit this generated repository directly. Use
-[GitHub Issues](https://github.com/samebase/agent-plugins/issues) to request a change or report a
-problem.
+[GitHub Issues](https://github.com/samebase/plugin/issues) to request a change or report a problem.
 
 This repository packages the Samebase MCP server and one workflow skill for coding agents. The goal
 is to make the complete GitHub-backed app loop clear:
@@ -53,7 +52,7 @@ chat.
 For direct Codex installation from this repository, add the marketplace:
 
 ```bash
-codex plugin marketplace add samebase/agent-plugins
+codex plugin marketplace add samebase/plugin
 ```
 
 Install the plugin:
@@ -76,7 +75,7 @@ Start a new Codex task after installing so the plugin skills and MCP server are 
 Add the marketplace:
 
 ```text
-/plugin marketplace add samebase/agent-plugins
+/plugin marketplace add samebase/plugin
 ```
 
 Install the plugin:
@@ -125,7 +124,7 @@ node ./scripts/check.ts
 
 ## Support and Security
 
-Use [GitHub Issues](https://github.com/samebase/agent-plugins/issues) for support and non-sensitive
-bug reports. Follow [SECURITY.md](SECURITY.md) for private vulnerability reports.
+Use [GitHub Issues](https://github.com/samebase/plugin/issues) for support and non-sensitive bug
+reports. Follow [SECURITY.md](SECURITY.md) for private vulnerability reports.
 
 This repository is licensed under the [Apache License 2.0](LICENSE).

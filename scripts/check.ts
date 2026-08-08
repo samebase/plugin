@@ -24,7 +24,9 @@ function checkRelativePath(baseRoot: string, relativePath: string, label: string
 
 const codexMarketplacePlugin = codexMarketplace.plugins[0];
 const claudeMarketplacePlugin = claudeMarketplace.plugins[0];
+const repositoryUrl = "https://github.com/samebase/plugin";
 
+check(packageMetadata.name === "samebase-plugin", "Unexpected package name.");
 check(
   packageMetadata.version === codexManifest.version,
   "The package version must match the Codex manifest.",
@@ -38,6 +40,12 @@ check(packageMetadata.license === "Apache-2.0", "The package must declare the Ap
 check(
   codexManifest.license === packageMetadata.license,
   "The Codex manifest license must match the package.",
+);
+check(codexManifest.repository === repositoryUrl, "Unexpected Codex repository URL.");
+check(claudeManifest.repository === repositoryUrl, "Unexpected Claude repository URL.");
+check(
+  claudeMarketplacePlugin.repository === repositoryUrl,
+  "Unexpected Claude marketplace repository URL.",
 );
 check(mcp.mcpServers.samebase.url === "https://api.samebase.com/mcp", "Unexpected MCP endpoint.");
 checkRelativePath(root, "LICENSE", "License");

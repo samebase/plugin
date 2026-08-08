@@ -2,12 +2,12 @@
   "name": "samebase",
   "displayName": "Samebase",
   "description": "Build and ship web apps with Samebase through a GitHub repository, Convex backend, and Cloudflare Workers delivery.",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "author": {
     "name": "Samebase"
   },
   "homepage": "https://samebase.com",
-  "repository": "https://github.com/samebase/agent-plugins",
+  "repository": "https://github.com/samebase/plugin",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
 }
