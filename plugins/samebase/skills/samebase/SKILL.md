@@ -39,13 +39,18 @@ actions. Each action reports missing authentication itself.
   missing authentication.
 - For a new app, use only this closed flow:
   1. Read the app inventory.
-  2. Create the app.
-  3. Read only the inventory until source setup is `ready` or `failed`.
-  4. If source setup is ready, separately read only the inventory until provider setup is `ready` or
-     `failed`. Authentication-status, browser-handoff, and provider-account reads are not part of
-     this flow. The complete sequence contains only inventory, create, and inventory polls. Call
-     create directly after inventory. Do not list Cloudflare accounts first. Create has no
-     `accountId` and uses the connected Cloudflare provider.
+  2. Call `cloudflare_listWorkersBuildTokens` for the selected organization.
+  3. If the result includes an available `lastUsedBuildTokenUuid`, use that UUID without asking. If
+     not, use the only listed token, ask the user to choose by name and UUID when several tokens are
+     listed, or stop and tell the user to complete Workers Builds token setup when none are listed.
+  4. Create the app with the selected token UUID.
+  5. Read only the inventory until source setup is `ready` or `failed`.
+  6. If source setup is ready, separately read only the inventory until provider setup is `ready` or
+     `failed`. Authentication-status, browser-handoff, and Cloudflare account-list reads are not
+     part of this flow. The complete sequence contains only inventory, the Workers Builds token
+     list, create, and inventory polls. Call create directly after the token list. Do not list
+     Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare
+     provider.
 
 After you select the route, use live tool descriptions only for the exact tool name and arguments.
 Match an inventory `nextAction` to its action contract at

@@ -154,11 +154,29 @@ check(
   positiveRouteIndex >= 0 && scopeGateIndex < positiveRouteIndex,
   "The Samebase skill exclusions must precede its positive action routes.",
 );
+const managedInventoryIndex = samebaseSkill.indexOf("Read the app inventory.");
+const managedTokenListIndex = samebaseSkill.indexOf(
+  "Call `cloudflare_listWorkersBuildTokens` for the selected organization.",
+);
+const managedCreateIndex = samebaseSkill.indexOf("Create the app with the selected token UUID.");
+const managedSourcePollIndex = samebaseSkill.indexOf(
+  "Read only the inventory until source setup is `ready` or `failed`.",
+);
+check(
+  managedInventoryIndex >= 0 &&
+    managedTokenListIndex > managedInventoryIndex &&
+    managedCreateIndex > managedTokenListIndex &&
+    managedSourcePollIndex > managedCreateIndex &&
+    samebaseSkill.includes(
+      "The complete sequence contains only inventory, the Workers Builds token list, create, and inventory polls. Call create directly after the token list. Do not list Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare provider.",
+    ),
+  "The Samebase skill must keep managed app creation on its closed tool sequence.",
+);
 check(
   samebaseSkill.includes(
-    "The complete sequence contains only inventory, create, and inventory polls. Call create directly after inventory. Do not list Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare provider.",
+    "If the result includes an available `lastUsedBuildTokenUuid`, use that UUID without asking. If not, use the only listed token, ask the user to choose by name and UUID when several tokens are listed, or stop and tell the user to complete Workers Builds token setup when none are listed.",
   ),
-  "The Samebase skill must keep managed app creation on its closed tool sequence.",
+  "The Samebase skill must use the last-used Workers Builds token before its explicit fallbacks.",
 );
 const openSamebaseIndex = samebaseSkill.indexOf(
   "Treat `open @samebase` as an exact command and an explicit choice of the in-app Browser.",
