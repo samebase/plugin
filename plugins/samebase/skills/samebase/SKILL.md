@@ -40,10 +40,11 @@ actions. Each action reports missing authentication itself.
 - For a new app, use only this closed flow:
   1. Read the app inventory.
   2. Call `cloudflare_listWorkersBuildTokens` for the selected organization.
-  3. If the result includes an available `lastUsedBuildTokenUuid`, use that UUID without asking. If
-     not, use the only listed token, ask the user to choose by name and UUID when several tokens are
-     listed, or stop and tell the user to complete Workers Builds token setup when none are listed.
-  4. Create the app with the selected token UUID.
+  3. If that current token list is confirmed empty, use explicit null. Otherwise, use an available
+     `lastUsedBuildTokenUuid` without asking, use the only listed token, or ask the user to choose
+     by name and UUID when several tokens are listed.
+  4. Create the app with the required `cloudflareBuildTokenUuid` set to the selected exact UUID or
+     explicit null.
   5. Read only the inventory until source setup is `ready` or `failed`.
   6. If source setup is ready, separately read only the inventory until provider setup is `ready` or
      `failed`. Authentication-status, browser-handoff, and Cloudflare account-list reads are not
@@ -51,6 +52,31 @@ actions. Each action reports missing authentication itself.
      list, create, and inventory polls. Call create directly after the token list. Do not list
      Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare
      provider.
+  7. When the token was null, the managed run creates the GitHub repository and Convex project but
+     no Cloudflare Worker. A ready provider setup means only that this requested managed work
+     finished. Confirm that the exact planned Convex project is attached and `cloudflareWorkers` is
+     empty. Report that Cloudflare setup is pending and give the user
+     [samebase.com/docs/cloudflare-setup](https://samebase.com/docs/cloudflare-setup). Do not call
+     the app fully ready, attach a temporary Worker, or retry the completed managed run.
+  8. The user completes Cloudflare's standard repository setup to create the first account token,
+     then deletes the temporary Worker. After the user completes those steps and asks to finish the
+     app, list the current tokens again and call `vault_cloudflare_createWorker` with one exact
+     UUID. Reread inventory, then call `vault_cloudflare_rotateConvexDeployKeysForWorkersBuilds`
+     with the new Worker and the attached Convex project.
+- For manual Cloudflare Worker creation or Workers Builds configuration, first call
+  `cloudflare_listWorkersBuildTokens`. Pass only an exact UUID from the current non-empty list. If
+  the list is empty, stop the write and use current inventory to select the next action:
+  - For the tokenless managed app with its exact planned Convex project and no attached Worker, use
+    [samebase.com/docs/cloudflare-setup](https://samebase.com/docs/cloudflare-setup). After setup,
+    list tokens again, call `vault_cloudflare_createWorker` with one current exact UUID, reread
+    inventory, then call `vault_cloudflare_rotateConvexDeployKeysForWorkersBuilds`.
+  - When a Worker is already attached, keep it. After token setup, list tokens again and call
+    `vault_cloudflare_configureWorkersBuildsForGitHub` for that attachment. Do not create another
+    Worker.
+  - For another manual vault, complete token setup, list tokens again, and continue only with the
+    action that matches the request and current inventory. Worker creation does not install Convex
+    deploy keys.
+- Never pass null to a manual Worker or Builds action.
 
 After you select the route, use live tool descriptions only for the exact tool name and arguments.
 Match an inventory `nextAction` to its action contract at
