@@ -3,13 +3,13 @@
   "owner": {
     "name": "Samebase"
   },
-  "description": "Samebase plugin for local AI coding agents.",
+  "description": "Samebase plugin for ChatGPT, Codex, and Claude Code.",
   "plugins": [
     {
       "name": "samebase",
       "displayName": "Samebase",
       "source": "./plugins/samebase",
-      "description": "Build and ship web apps with Samebase through a user-owned GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+      "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
       "author": {
         "name": "Samebase"
       },

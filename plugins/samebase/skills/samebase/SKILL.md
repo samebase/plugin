@@ -1,141 +1,66 @@
 ---
 name: samebase
 description:
-  Build, connect, change, publish, or operate Samebase web apps through GitHub, Convex, and
-  Cloudflare. Use for Samebase app inventory, provisioning, provider attachment, repair, browser
-  handoff, repository work, deployment checks, logs, environment values, migrations, and domains.
+  Use Samebase to create and manage web apps with a GitHub repository and optional Convex and
+  Cloudflare resources. Use when the user asks to list, create, connect, configure, repair, open,
+  publish, or operate a Samebase app.
 ---
 
 # Samebase
 
-## Scope gate
+## Choose the control surface
 
-- Samebase is only for repository-backed apps and explicit provider attachments.
-- Do not use Samebase for unrelated Git work or standalone provider resources. A standalone
-  Cloudflare Worker means no Samebase.
-- For a deletion request, direct the user to the Samebase dashboard. Do not call any Samebase or
-  provider tool, including app inventory and browser handoff, and do not delete attached resources.
+- Use Samebase actions to list apps, create or connect an app repository, attach or repair provider
+  resources, and open the Samebase dashboard.
+- Use GitHub, Convex, or Cloudflare tools for direct work in those systems. A provider action does
+  not change the Samebase app unless the action says that it does.
+- When a requested Samebase operation is not available through MCP, explain where the user can do it
+  and offer to open the Samebase dashboard. Do not claim that the operation finished.
+- Choose the action from the user's request. Follow the live MCP server and tool instructions for
+  the current actions, arguments, effects, and required order.
+- Call only the actions needed for that route. Do not read app or authentication state as a generic
+  preflight.
 
-Use Samebase for repository-backed apps and work that joins GitHub, Convex, and Cloudflare.
+## Open Samebase
 
-## Route the request
+- Treat `open @samebase` and another request to open the Samebase dashboard as a request to use the
+  in-app Browser.
+  1. Select the in-app Browser. Do not select Chrome or another external browser.
+  2. Call `create_browser_handoff` directly. Do not call authentication status first.
+  3. If browser handoff is unavailable or reports missing authorization, explain that Samebase
+     authorization is required. Ask, `Would you like me to start authorization with Samebase?`
+  4. Start authorization only after the user agrees. Wait for it to finish, then call
+     `create_browser_handoff` again.
+  5. Open the returned URL in the selected Browser before it expires.
+- If the in-app Browser is unavailable, say so. Do not open Chrome.
+- Use authentication status only when the user asks about authentication or a tool reports missing
+  authentication.
 
-Choose the route from the user request before you read live tool descriptions. Do not add preflight
-actions. Each action reports missing authentication itself.
+## Protect app identity
 
-- For an app-inventory request, call only the Samebase app inventory. Do not call authentication
-  status or browser handoff as a preflight.
-- For a Cloudflare account-list request, call only the Cloudflare account list. Do not call app
-  inventory, authentication status, or browser handoff as a preflight.
-- Treat `open @samebase` as an exact command and an explicit choice of the in-app Browser. The user
-  does not have to say `dashboard` or mention the Browser plugin.
-  1. Select the in-app Browser. Do not select Chrome or a different external browser.
-  2. Call `create_browser_handoff`.
-  3. Open the returned URL promptly in the selected in-app Browser. The URL signs that browser into
-     Samebase as the user behind the current MCP grant and opens the dashboard by default.
-- Use the same flow for another request to open the Samebase dashboard. If the in-app Browser is
-  unavailable, report that it is unavailable. Do not substitute Chrome.
-- Use authentication status only when the user asks about authentication or after an action reports
-  missing authentication.
-- For a new app, use only this closed flow:
-  1. Read the app inventory.
-  2. Call `cloudflare_listWorkersBuildTokens` for the selected organization.
-  3. If that current token list is confirmed empty, use explicit null. Otherwise, use an available
-     `lastUsedBuildTokenUuid` without asking, use the only listed token, or ask the user to choose
-     by name and UUID when several tokens are listed.
-  4. Create the app with the required `cloudflareBuildTokenUuid` set to the selected exact UUID or
-     explicit null.
-  5. Read only the inventory until source setup is `ready` or `failed`.
-  6. If source setup is ready, separately read only the inventory until provider setup is `ready` or
-     `failed`. Authentication-status, browser-handoff, and Cloudflare account-list reads are not
-     part of this flow. The complete sequence contains only inventory, the Workers Builds token
-     list, create, and inventory polls. Call create directly after the token list. Do not list
-     Cloudflare accounts first. Create has no `accountId` and uses the connected Cloudflare
-     provider.
-  7. When the token was null, the managed run creates the GitHub repository and Convex project but
-     no Cloudflare Worker. A ready provider setup means only that this requested managed work
-     finished. Confirm that the exact planned Convex project is attached and `cloudflareWorkers` is
-     empty. Report that Cloudflare setup is pending and give the user
-     [samebase.com/docs/cloudflare-setup](https://samebase.com/docs/cloudflare-setup). Do not call
-     the app fully ready, attach a temporary Worker, or retry the completed managed run.
-  8. The user completes Cloudflare's standard repository setup to create the first account token,
-     then deletes the temporary Worker. After the user completes those steps and asks to finish the
-     app, list the current tokens again and call `vault_cloudflare_createWorker` with one exact
-     UUID. Reread inventory, then call `vault_cloudflare_rotateConvexDeployKeysForWorkersBuilds`
-     with the new Worker and the attached Convex project.
-- For manual Cloudflare Worker creation or Workers Builds configuration, first call
-  `cloudflare_listWorkersBuildTokens`. Pass only an exact UUID from the current non-empty list. If
-  the list is empty, stop the write and use current inventory to select the next action:
-  - For the tokenless managed app with its exact planned Convex project and no attached Worker, use
-    [samebase.com/docs/cloudflare-setup](https://samebase.com/docs/cloudflare-setup). After setup,
-    list tokens again, call `vault_cloudflare_createWorker` with one current exact UUID, reread
-    inventory, then call `vault_cloudflare_rotateConvexDeployKeysForWorkersBuilds`.
-  - When a Worker is already attached, keep it. After token setup, list tokens again and call
-    `vault_cloudflare_configureWorkersBuildsForGitHub` for that attachment. Do not create another
-    Worker.
-  - For another manual vault, complete token setup, list tokens again, and continue only with the
-    action that matches the request and current inventory. Worker creation does not install Convex
-    deploy keys.
-- Never pass null to a manual Worker or Builds action.
+- Read app inventory before a Samebase write when a repository can already be connected.
+- Reuse returned app, repository, provider account, and attachment identifiers without changing
+  them. Treat identifiers as opaque.
+- Source setup and provider setup are separate states. Source work can continue while provider setup
+  is incomplete or failed.
 
-After you select the route, use live tool descriptions only for the exact tool name and arguments.
-Match an inventory `nextAction` to its action contract at
-[samebase.com/llms.txt](https://samebase.com/llms.txt). Do not guess a tool name from the action ID
-or copy tool schemas into this skill.
+## Approve provider writes
 
-## Select the app
-
-1. Read the Samebase app inventory before a Samebase write.
-2. Reuse the exact app, repository, and attachment IDs. Treat all returned IDs as opaque.
-3. Create a new app only when the user needs one. Use a private repository unless the user asks for
-   a public repository.
-4. Connect an existing GitHub repository at the start of adoption when it is not in Samebase. This
-   gives Samebase the source state without attaching Convex or Cloudflare.
-
-## Verify state
-
-- Treat source setup and provider setup as separate states. Source work can continue while provider
-  setup is incomplete.
-- Prepare the repository before provider setup that can start a production build by default. An
-  operator may approve earlier provider setup for an experimental app and accept a failed build as
-  diagnostic evidence. It is not deployment success. Use the
-  [existing repository adoption reference](references/existing-repository-adoption.md) for this
-  decision and the first-deployment preview observation.
-- Reread inventory after each attachment, configuration, or repair action.
-- A started run, requested build, commit, or push is not proof of a live deployment.
-- Before a write sequence that can start or request a production build, name that effect and get
-  explicit approval. One approval can cover the named sequence when the repository, provider
-  account, possible production effect, and rule for attaching an existing resource or creating a new
-  one are clear. Ask again if one of those facts or the approved scope changes.
+- Before a Samebase sequence can create or change provider resources or start a production build,
+  state the repository, provider account, expected changes, and whether Samebase will attach an
+  existing resource or create a new one. Get explicit approval.
+- Ask again if the target, effects, or approved scope changes.
 
 ## Work in the repository
 
-Use the app's GitHub repository as the source of truth. Clone it when needed. Read its instructions,
-setup commands, lockfile, generated-file policy, and validation commands before editing. Run its
-setup and code generation steps. Validate the final source. Commit or push only when the user asks
-to publish.
+- Use the selected app's GitHub repository for code work. Follow its instructions and validation
+  commands.
 
-For stack-alignment work, read the current public [samebase/app](https://github.com/samebase/app)
-main branch before edits. It is the canonical minimal reference for a Samebase-ready repository.
-Preserve proven target requirements while aligning the runtime, package manager, command surface,
-type checks, lint and format rules, tests, framework and deploy adapters, CI, and shared version
-pins. Classify each difference as alignment, a proven target constraint, an investigation, or one
-tested exception. Samebase is the first baseline, not an unquestioned authority. Carry target
-findings back when they improve the public reference.
+## Verify the result
 
-Keep validation proportionate to the project and the migration risk. Discuss material cost and
-coverage tradeoffs with the operator. Do not turn Samebase adoption into an unrelated testing
-upgrade.
-
-Treat authored `.js`, `.mjs`, and `.cjs` files and direct ESLint, Prettier, Vitest, or Vite runners
-as review smells. Keep an exception only for one named tool or runtime boundary that cannot use the
-normal TypeScript and Vite+ path. Document the boundary. Do not add a repository scanner only to
-enforce a source extension or selected tool name.
-
-## Use the correct control surface
-
-Use Samebase for app inventory, provider joins, and explicit repair actions. Use provider-native
-tools for live provider state, logs, environment values, migrations, domains, and terminal build
-state when no Samebase tool exposes that read or action.
-
-Keep credentials out of Git, logs, screenshots, and responses. Report only states that you verified.
+- Reread Samebase inventory after an attachment, configuration, or repair action.
+- Inventory reports Samebase workflow state and stable resource identifiers. Use provider tools for
+  live state, logs, environment values, migrations, domains, and final build status when Samebase
+  has no matching read.
+- A started run, build request, commit, or push does not prove that a deployment is live.
+- Never put credentials in Git, logs, screenshots, or responses. Report only verified state.

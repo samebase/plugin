@@ -1,7 +1,7 @@
 {
   "name": "samebase",
-  "version": "0.2.22",
-  "description": "Build and ship web apps with Samebase through a GitHub repository, Convex backend, and Cloudflare Workers delivery.",
+  "version": "0.2.23",
+  "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
   "author": {
     "name": "Samebase",
     "url": "https://samebase.com"
@@ -27,8 +27,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Samebase",
-    "shortDescription": "Build and ship apps on the Samebase stack",
-    "longDescription": "Create, connect, inspect, build, and ship web apps with Samebase. Samebase manages app inventory and provider wiring through MCP while the coding agent works in the user's real GitHub repository and follows its setup, codegen, validation, Git, and deployment workflow.",
+    "shortDescription": "Build and manage repository-backed apps",
+    "longDescription": "Use Samebase to list, create, connect, and repair repository-backed apps. The coding agent works in the selected GitHub repository and checks live provider state before it reports success.",
     "developerName": "Samebase",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Write"],
@@ -39,7 +39,7 @@
     "logo": "./assets/icon.png",
     "defaultPrompt": [
       "Show me my Samebase apps and their setup status.",
-      "Which Cloudflare accounts are connected to my Samebase account?"
+      "Open my Samebase dashboard."
     ],
     "brandColor": "#111827"
   }
