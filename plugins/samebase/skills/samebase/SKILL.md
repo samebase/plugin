@@ -3,7 +3,7 @@ name: samebase
 description:
   Use Samebase to create and manage web apps with a GitHub repository and optional Convex and
   Cloudflare resources. Use when the user asks to list, create, connect, configure, repair, open,
-  publish, or operate a Samebase app.
+  publish, or operate a Samebase app, or submit feedback about Samebase.
 ---
 
 # Samebase
@@ -20,6 +20,12 @@ description:
   the current actions, arguments, effects, and required order.
 - Call only the actions needed for that route. Do not read app or authentication state as a generic
   preflight.
+- Never offer feedback for a standalone GitHub, Convex, Cloudflare, or agent problem.
+- When the feedback action is available, offer once without being asked after an unexpected Samebase
+  failure, a wrong Samebase result, or clear frustration with Samebase or its plugin. Draft a short
+  report that states what the user tried, what happened, and what should improve. Show the exact
+  report, then say,
+  `I can automatically send this exact report to Samebase. No form is needed, and nothing is sent unless you approve. Send it?`
 
 ## Open Samebase
 
