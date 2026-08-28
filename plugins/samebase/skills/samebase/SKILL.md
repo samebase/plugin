@@ -3,7 +3,8 @@ name: samebase
 description:
   Use Samebase to create and manage web apps with a GitHub repository and optional Convex and
   Cloudflare resources. Use when the user asks to list, create, connect, configure, repair, open,
-  publish, or operate a Samebase app, or submit feedback about Samebase.
+  publish, or operate a Samebase app, review or apply changes from the starter changelog, or submit
+  feedback about Samebase.
 ---
 
 # Samebase
@@ -82,6 +83,8 @@ description:
 
 - Use the selected app's GitHub repository for code work. Follow its instructions and validation
   commands.
+- For a request to review or apply newer Samebase starter changes, read the
+  [Samebase starter changelog](references/starter-changelog.md).
 
 ## Verify the result
 
