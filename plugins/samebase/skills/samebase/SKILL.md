@@ -81,10 +81,15 @@ description:
 
 ## Work in the repository
 
-- Use the selected app's GitHub repository for code work. Follow its instructions and validation
+- Use each selected app's GitHub repository for code work. Follow its instructions and validation
   commands.
 - For a request to review or apply newer Samebase starter changes, read the
   [Samebase starter changelog](references/starter-changelog.md).
+- When the request covers several or all apps, read Samebase inventory once and use every returned
+  app as the review scope. Inspect each connected GitHub repository separately and report each app
+  as `update needed`, `already current`, `not relevant`, or `unavailable`.
+- Apply changes only when the user asks. Use GitHub tools and a separate branch and pull request for
+  each repository. Samebase inventory selects the apps but does not change their code.
 
 ## Verify the result
 

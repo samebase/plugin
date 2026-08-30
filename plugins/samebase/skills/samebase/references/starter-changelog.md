@@ -1,6 +1,7 @@
 # Samebase starter changelog
 
-Read this only when the user asks to review or apply improvements from a newer Samebase starter.
+Read this only when the user asks to review or apply improvements from a newer Samebase starter to
+one or more apps.
 
 This changelog lists starter changes that can be useful to existing apps. It is not a complete
 history and does not define update state.
@@ -17,6 +18,23 @@ newer build number.
 The user owns all app code. Inspect the current app before you use this list. The app code is the
 source of truth. Skip an entry when the app already has its result. Apply only changes that are
 relevant, and preserve unrelated user changes.
+
+For a review of several apps, compare each repository independently. Do not reuse one app's starter
+build or relevance result for another app.
+
+## v1996: Upgrade Convex to 1.45.0
+
+The starter now uses Convex 1.45.0. This release upgrades local deployments in place and adds
+service-token generation for the upcoming Convex AI gateway.
+
+Relevant when an app uses an older Convex client. Upgrade `convex` to `^1.45.0`. When the app uses
+`convex-test`, upgrade it to 0.0.56 in the same change. Keep unrelated runtime, package manager,
+test runner, and lint updates separate.
+
+Run the app's normal checks and verify its preview deployment.
+
+Source:
+[samebase/base v1996](https://github.com/samebase/base/commit/166e1c9dd2357ceefd74e6311a48f1b30c4c0327)
 
 ## v1983: Use one public-page configuration
 
