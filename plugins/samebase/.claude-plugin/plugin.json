@@ -2,7 +2,7 @@
   "name": "samebase",
   "displayName": "Samebase",
   "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
-  "version": "0.2.28",
+  "version": "0.2.29",
   "author": {
     "name": "Samebase"
   },

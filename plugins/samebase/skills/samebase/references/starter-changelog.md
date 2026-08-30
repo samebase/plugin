@@ -34,7 +34,7 @@ Verify the generated redirects, build the app, and directly load each public rou
 route.
 
 Source:
-[samebase/app v1983](https://github.com/samebase/app/commit/d22ed3dc279d05ffd91434ed7a5aad01b340df43)
+[samebase/base v1983](https://github.com/samebase/base/commit/d22ed3dc279d05ffd91434ed7a5aad01b340df43)
 
 ## v1982: Make direct SPA routes hydrate correctly
 
@@ -52,4 +52,4 @@ Verify that the router matches an unknown path with `/$`. Directly load the cano
 and one unknown route, and confirm that the browser console has no hydration error.
 
 Source:
-[samebase/app v1982](https://github.com/samebase/app/commit/7969b12686b42a009cfd70ca0e5af9e1a7ff122f)
+[samebase/base v1982](https://github.com/samebase/base/commit/7969b12686b42a009cfd70ca0e5af9e1a7ff122f)
