@@ -52,7 +52,11 @@ description:
 
 ## Protect app identity
 
-- Read app inventory before a Samebase write when a repository can already be connected.
+- Read repository inventory before a Samebase write when a repository can already be connected.
+- Keep the two repository identities separate. `repositoryId` is the opaque Samebase repository ID
+  returned by `get_user_repositories`. `githubRepositoryDatabaseId` is GitHub's numeric repository
+  database ID stored as a string. Never substitute one for the other. Do not use or invent
+  `githubRepositoryId`, `repoId`, or `ghRepoId`.
 - Managed app creation always uses these steps:
   1. Read inventory.
   2. Resolve the Convex production region.
@@ -72,8 +76,8 @@ description:
   5. Poll only inventory until both source and provider setup reach `ready` or `failed`. Stop and
      report a failed state. With a null token, report Cloudflare setup as pending after the other
      setup reaches `ready`.
-- Reuse returned app, repository, provider account, and attachment identifiers without changing
-  them. Treat identifiers as opaque.
+- Reuse returned Samebase repository, GitHub repository, provider account, and attachment
+  identifiers without changing them. Treat identifiers as opaque.
 - Source setup and provider setup are separate states. Source work can continue while provider setup
   is incomplete or failed.
 
