@@ -54,9 +54,9 @@ description:
 
 - Read repository inventory before a Samebase write when a repository can already be connected.
 - Keep the two repository identities separate. `repositoryId` is the opaque Samebase repository ID
-  returned by `get_user_repositories`. `githubRepositoryDatabaseId` is GitHub's numeric repository
-  database ID stored as a string. Never substitute one for the other. Do not use or invent
-  `githubRepositoryId`, `repoId`, or `ghRepoId`.
+  returned by `repository_dashboard_getUserRepositories`. `githubRepositoryDatabaseId` is GitHub's
+  numeric repository database ID stored as a string. Never substitute one for the other. Do not use
+  or invent `githubRepositoryId`, `repoId`, or `ghRepoId`.
 - When a Cloudflare action requires `accountId`, use the selected app's `cloudflareAccountId` from
   inventory.
 - Managed app creation always uses these steps:
