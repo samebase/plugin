@@ -57,6 +57,8 @@ description:
   returned by `get_user_repositories`. `githubRepositoryDatabaseId` is GitHub's numeric repository
   database ID stored as a string. Never substitute one for the other. Do not use or invent
   `githubRepositoryId`, `repoId`, or `ghRepoId`.
+- When a Cloudflare action requires `accountId`, use the selected app's `cloudflareAccountId` from
+  inventory.
 - Managed app creation always uses these steps:
   1. Read inventory.
   2. Resolve the Convex production region.
@@ -66,16 +68,21 @@ description:
        Link to [Convex pricing](https://www.convex.dev/pricing).
      - Otherwise, omit the region. Samebase uses the organization default, or US when none is saved.
      - A one-app choice does not change the organization default.
-  3. List the selected organization's current Workers Builds tokens, then select exactly:
-     - If the last-used token is current, use it.
-     - Otherwise, if one token exists, use it.
-     - Otherwise, if several tokens exist, stop and ask the user to choose by name and UUID.
-     - Otherwise, the list is empty, so pass null.
+  3. List the selected organization's current Workers Builds tokens. Use this decision table:
+
+     | Current result                        | Next action                                       |
+     | ------------------------------------- | ------------------------------------------------- |
+     | An available `lastUsedBuildTokenUuid` | Use that exact UUID.                              |
+     | No last-used UUID, one token          | Use that token's UUID.                            |
+     | No last-used UUID, several tokens     | Stop and ask the user to choose by name and UUID. |
+     | Empty token list                      | Pass explicit `null`.                             |
+
   4. Call the create action once with the selected region override, if any, and the token UUID or
      null.
   5. Poll only inventory until both source and provider setup reach `ready` or `failed`. Stop and
-     report a failed state. With a null token, report Cloudflare setup as pending after the other
-     setup reaches `ready`.
+     report a failed state.
+  6. With a null token, `ready` covers only the GitHub and Convex work. Report Cloudflare setup as
+     pending and link to [Cloudflare setup](https://samebase.com/docs/cloudflare-setup).
 - Reuse returned Samebase repository, GitHub repository, provider account, and attachment
   identifiers without changing them. Treat identifiers as opaque.
 - Source setup and provider setup are separate states. Source work can continue while provider setup
