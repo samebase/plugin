@@ -29,17 +29,26 @@ The starter uses Cloudflare's separate production and Previews Base build settin
 `build`, `deploy`, and `deploy:preview` remain the package-script interface.
 
 Relevant when an app reads `PREVIEW_CONVEX_DEPLOY_KEY` or uploads preview versions through a custom
-deploy script. Update Wrangler to `4.136.2`, use the starter's build script, and set `deploy` to
-`wrangler deploy` and `deploy:preview` to `wrangler preview`. Add `previews: {}` to `wrangler.jsonc`
-and preserve `preview_urls: true`. No fixed Worker name is needed in Workers Builds.
+deploy script. Use the starter's Wrangler version, and set `deploy` to `wrangler deploy` and
+`deploy:preview` to `wrangler preview`. Add `previews: {}` to `wrangler.jsonc` and preserve
+`preview_urls: true`. No fixed Worker name is needed in Workers Builds.
+
+Use `scripts/build-cloudflare.ts`, `scripts/ensure-convex-auth.ts`, and
+`scripts/verify-current-branch-head.ts`, with their matching tests, from one commit of
+[samebase/base](https://github.com/samebase/base). Keep standard scripts unchanged, including their
+source build comments. Preserve the app's own `build:app` steps. These scripts use Vite+ and `main`
+as the production branch. Preserve different toolchains, branch names, or extra deployment steps and
+explain each script difference in the PR. Set `build` to `node ./scripts/build-cloudflare.ts`.
 
 Enable native preview builds in Cloudflare. In **Settings > Builds > Variables and secrets**, set
 Previews Base's `CONVEX_DEPLOY_KEY` to the project's Preview deploy key. Remove the old
 `PREVIEW_CONVEX_DEPLOY_KEY` variables. Keep `SAMEBASE_CONVEX_PROJECT` in production only. Existing
 previews keep their saved build variables. Samebase key rotation updates existing preview keys.
 After a manual Base-only key correction, use a new branch name; retrying or deleting the Worker
-preview does not reset those variables. Verify production, a new preview, and a second build on the
-same preview branch.
+preview does not reset those variables. Prepare the code before the switch, then push after key
+setup. Branch pushes start previews without a PR. Verify one preview build and sign-in, then
+production after merge. Repeat the same preview build to check data and session persistence only if
+the migration changes the starter's preview selection or auth logic.
 
 Delete the obsolete deploy wrapper and its tests after updating callers. Remove
 `deploy:preview:dry-run`, which native previews do not support. Local `build` must not deploy
