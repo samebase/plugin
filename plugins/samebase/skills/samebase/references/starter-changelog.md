@@ -22,6 +22,36 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2064: Use native Worker Previews
+
+The starter uses Cloudflare's separate production and Previews Base build settings. Both use
+`CONVEX_DEPLOY_KEY`, with a production key in production and a project Preview key in Previews Base.
+`build`, `deploy`, and `deploy:preview` remain the package-script interface.
+
+Relevant when an app reads `PREVIEW_CONVEX_DEPLOY_KEY` or uploads preview versions through a custom
+deploy script. Update Wrangler to `4.136.2`, use the starter's build script, and set `deploy` to
+`wrangler deploy` and `deploy:preview` to `wrangler preview`. Add `previews: {}` to `wrangler.jsonc`
+and preserve `preview_urls: true`. No fixed Worker name is needed in Workers Builds.
+
+Enable native preview builds in Cloudflare. In **Settings > Builds > Variables and secrets**, set
+Previews Base's `CONVEX_DEPLOY_KEY` to the project's Preview deploy key. Remove the old
+`PREVIEW_CONVEX_DEPLOY_KEY` variables. Keep `SAMEBASE_CONVEX_PROJECT` in production only. Existing
+previews keep their saved build variables. Samebase key rotation updates existing preview keys.
+After a manual Base-only key correction, use a new branch name; retrying or deleting the Worker
+preview does not reset those variables. Verify production, a new preview, and a second build on the
+same preview branch.
+
+Delete the obsolete deploy wrapper and its tests after updating callers. Remove
+`deploy:preview:dry-run`, which native previews do not support. Local `build` must not deploy
+Convex.
+
+Update `ensure-convex-auth.ts` so preview auth reads and writes use the same
+`--preview-name <branch>` as the build. Keep existing auth keys on repeated builds. Stop auth setup
+if an environment read fails, so a read error cannot replace existing keys.
+
+Source:
+[Worker Previews migration](https://github.com/samebase/base/blob/main/docs/cloudflare-workers-builds.md).
+
 ## v1996: Upgrade Convex to 1.45.0
 
 The starter now uses Convex 1.45.0. This release upgrades local deployments in place and adds
