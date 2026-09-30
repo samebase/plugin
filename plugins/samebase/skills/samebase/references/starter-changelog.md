@@ -49,8 +49,7 @@ Update `ensure-convex-auth.ts` so preview auth reads and writes use the same
 `--preview-name <branch>` as the build. Keep existing auth keys on repeated builds. Stop auth setup
 if an environment read fails, so a read error cannot replace existing keys.
 
-Source:
-[Worker Previews migration](https://github.com/samebase/base/blob/main/docs/cloudflare-workers-builds.md).
+Source: [Worker Previews migration](https://samebase.com/docs/cloudflare-setup#worker-previews).
 
 ## v1996: Upgrade Convex to 1.45.0
 
