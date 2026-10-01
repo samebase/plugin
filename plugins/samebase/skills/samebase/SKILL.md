@@ -37,8 +37,7 @@ description:
 
 ## Open Samebase
 
-- Treat `open @samebase` and another request to open the Samebase dashboard as a request to use the
-  in-app Browser.
+- For `open @samebase` or another request to open the Samebase dashboard:
   1. If `create_browser_handoff` is absent, read
      [Recover missing actions](references/recover-missing-actions.md).
   2. Call `create_browser_handoff` directly. Do not call authentication status first.
@@ -46,9 +45,11 @@ description:
      `Would you like me to start authorization with Samebase?`
   4. Start authorization only through the current plugin or connection flow after the user agrees.
      Wait for it to finish, then call `create_browser_handoff` again.
-  5. Select the in-app Browser. Do not select Chrome or another external browser.
-  6. Open only the URL returned by `create_browser_handoff`, before it expires.
-- If the in-app Browser is unavailable, say so. Do not open Chrome.
+  5. In Codex, use the in-app Browser unless the user names another browser.
+  6. In ChatGPT web or mobile, present the returned URL as a clickable link. If the current client
+     provides a browser-opening action, use it when the user asks to open the dashboard.
+  7. Use only the returned URL before it expires. If no browser-opening action is available, present
+     the link without claiming that the dashboard opened.
 
 ## Protect app identity
 
