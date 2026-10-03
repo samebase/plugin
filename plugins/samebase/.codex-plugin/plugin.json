@@ -1,6 +1,6 @@
 {
   "name": "samebase",
-  "version": "0.2.40",
+  "version": "0.3.2",
   "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
   "author": {
     "name": "Samebase",
@@ -28,7 +28,7 @@
   "interface": {
     "displayName": "Samebase",
     "shortDescription": "Build and manage repository-backed apps",
-    "longDescription": "Use Samebase to list, create, connect, and repair repository-backed apps. The coding agent works in the selected GitHub repository and checks live provider state before it reports success.",
+    "longDescription": "Use Samebase to list, create, connect, and repair Samebase repositories and their apps. The coding agent works in the selected GitHub repository and checks live provider state before it reports success.",
     "developerName": "Samebase",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Write"],
@@ -38,7 +38,7 @@
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/icon.png",
     "defaultPrompt": [
-      "Show me my Samebase apps and their setup status.",
+      "Show me my Samebase repositories and their setup status.",
       "Open my Samebase dashboard."
     ],
     "brandColor": "#111827"
