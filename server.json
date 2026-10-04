@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.samebase/samebase",
+  "title": "Samebase",
+  "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
+  "version": "0.3.5",
+  "websiteUrl": "https://samebase.com",
+  "repository": {
+    "url": "https://github.com/samebase/plugin",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.samebase.com/mcp"
+    }
+  ]
+}

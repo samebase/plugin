@@ -2,12 +2,13 @@
   "name": "samebase",
   "displayName": "Samebase",
   "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "author": {
     "name": "Samebase"
   },
   "homepage": "https://samebase.com",
   "repository": "https://github.com/samebase/plugin",
+  "license": "Apache-2.0",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
 }

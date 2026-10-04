@@ -1,6 +1,6 @@
 {
   "name": "samebase",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
   "author": {
     "name": "Samebase",
@@ -103,7 +103,7 @@
         "commerce_description": "Samebase sells nothing through the plugin and processes no payments. Resources are created in the user's own GitHub, Convex, and Cloudflare accounts."
       },
       "publication": {
-        "release_notes": "0.3.4: one catalog of 18 tools named by Convex function path. repository_getStatus reads live builds, URLs, Convex deployments, checks, and pull requests of one repository. Connecting a Worker, rotating deploy keys, retrying setup, and detaching a resource now need a server-issued confirmation on a second call. Shorter server instructions and rewritten test cases."
+        "release_notes": "0.3.5: plugin README and license metadata for directory listings, and the MCP Registry server.json. No tool change. 0.3.4: one catalog of 18 tools named by Convex function path. repository_getStatus reads live builds, URLs, Convex deployments, checks, and pull requests of one repository. Connecting a Worker, rotating deploy keys, retrying setup, and detaching a resource now need a server-issued confirmation on a second call. Shorter server instructions and rewritten test cases."
       }
     }
   }
