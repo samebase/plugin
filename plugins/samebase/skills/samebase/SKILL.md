@@ -1,6 +1,6 @@
 ---
 name: samebase
-description:
+description: >-
   Use Samebase to create and manage web apps in Samebase repositories: a GitHub repository with
   optional Convex projects and Cloudflare Workers. Use when the user asks to list, create, connect,
   configure, repair, open, publish, or operate a Samebase repository or app, review or apply changes
