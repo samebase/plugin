@@ -10,7 +10,7 @@ This repository is generated. Do not edit it directly. Use
 ## Authorize Samebase
 
 The plugin installs one MCP server named `samebase`. Authorize it when the client asks for access.
-Do not add `https://api.samebase.com/mcp` as a second manual server.
+Do not add `https://samebase.com/mcp` as a second manual server.
 
 `open @samebase` works only after Samebase is authorized. The agent opens the dashboard only with a
 one-time URL returned by the Samebase browser-handoff action. The public Samebase site is not an

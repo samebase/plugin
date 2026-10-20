@@ -2,7 +2,7 @@
   "mcpServers": {
     "samebase": {
       "type": "http",
-      "url": "https://api.samebase.com/mcp"
+      "url": "https://samebase.com/mcp"
     }
   }
 }

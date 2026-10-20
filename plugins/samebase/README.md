@@ -37,9 +37,9 @@ codex plugin marketplace add samebase/plugin
 codex plugin add samebase@samebase
 ```
 
-The plugin installs one MCP server named `samebase` at `https://api.samebase.com/mcp`. Authorize it
-when the client asks. Sign-in uses the Samebase account at [samebase.com](https://samebase.com). Do
-not add the URL as a second manual server.
+The plugin installs one MCP server named `samebase` at `https://samebase.com/mcp`. Authorize it when
+the client asks. Sign-in uses the Samebase account at [samebase.com](https://samebase.com). Do not
+add the URL as a second manual server.
 
 ## Links
 
