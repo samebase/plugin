@@ -1,22 +1,18 @@
 # Samebase
 
-Samebase gives a coding agent one MCP server for repository-backed web apps: a GitHub repository, a
-Cloudflare Worker, and a Convex project, set up and kept in sync by Samebase. The plugin bundles
-that server and one skill that tells the agent when to use Samebase and when to ask before it
-changes a provider account.
+Samebase starts web apps and monitors them: a GitHub repository whose GitHub Actions deploy it with
+Alchemy. The plugin bundles the Samebase MCP server and one skill that tells the agent when to use
+Samebase. Repair lives in Alchemy and the agent, not in Samebase.
 
 ## What the agent can do
 
-- Read: list the account's repositories, read the live status of one repository (production URL,
-  latest build, Convex deployment, checks, open pull requests), find Convex projects and Cloudflare
-  Workers that can be attached, and check authentication.
-- Create and connect: create a repository from the Samebase starter template, connect an existing
-  repository, create or attach a Convex project, create or attach a Worker, and configure Workers
-  Builds.
-- Repair: retry provider setup, rotate Convex deploy keys, and detach a resource. Each of these, and
-  connecting a Worker, changes nothing on the first call. The server returns the effect and a
-  one-use confirmation token, and the action runs only when the agent calls again with the user's
-  approval.
+- Read: list the account's repositories, read the live status of one repository (stacks, production
+  and preview URLs, deployed commit, checks, open pull requests), and check authentication.
+- Create and connect: create a repository from the Samebase starter template, and connect an
+  existing repository.
+- Retry: start a failed setup again. This changes nothing on the first call. The server returns the
+  effect and a one-use confirmation token, and the action runs only when the agent calls again with
+  the user's approval.
 
 All reads and writes stay inside the GitHub, Cloudflare, and Convex accounts that the user connected
 to Samebase.

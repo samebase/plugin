@@ -1,19 +1,20 @@
 ---
 name: samebase
 description: >-
-  Use Samebase to create and manage web apps in Samebase repositories: a GitHub repository with
-  optional Convex projects and Cloudflare Workers. Use when the user asks to list, create, connect,
-  configure, repair, open, publish, or operate a Samebase repository or app, review or apply changes
-  from the starter changelog, or submit feedback about Samebase.
+  Use Samebase to start and monitor web apps: a GitHub repository whose GitHub Actions deploy it
+  with Alchemy. Use when the user asks to list, create, connect, open, or check a Samebase
+  repository or app, review or apply changes from the starter changelog, or submit feedback about
+  Samebase.
 ---
 
 # Samebase
 
 ## Route the request
 
-- Use Samebase tools for Samebase repositories: list them, read a repository status, create or
-  connect one, find, attach, connect, create, repair, or detach its Cloudflare Workers and Convex
-  projects, and open the Samebase dashboard.
+- Samebase starts and monitors apps. Use its tools to list repositories, read a repository status,
+  create or connect a repository, retry a failed setup, and open the Samebase dashboard.
+- Repair lives in Alchemy and the agent, not in Samebase. Fix a failed deployment in the repository:
+  read its GitHub Actions log, then change the code or `alchemy.run.ts`.
 - Use GitHub, Convex, or Cloudflare tools for code, logs, environment values, migrations, domains,
   and standalone provider resources. Do not propose a Samebase workflow for a standalone resource.
 - Call only the tools that the request needs. Do not read the repository list or the authentication
@@ -22,42 +23,30 @@ description: >-
 - If a Samebase tool that the request needs is absent, read
   [Recover missing actions](references/recover-missing-actions.md).
 
-## Name repositories and resources
+## Name repositories
 
-- Pass `repository` as the GitHub full name, `owner/name`, or as the `repositoryId` from
-  `repository_list`.
-- Name a Worker by its name. Name an existing Convex project by its slug, `convexProjectSlug`, as
-  `repository_list` or `repository_convex_findProjects` returns it. The project name is for display
-  only. Never invent a name, slug, or ID.
-- Samebase picks the Workers Builds token, the only Convex code location, and the only attached
-  Convex project. When a result lists choices, ask the user and pass the choice.
+Pass `repository` as the GitHub full name, `owner/name`, or as the `repositoryId` from
+`repository_list`. Never invent a name or ID.
 
 ## Create a repository
 
 1. A direct request to create a repository approves one creation. Before the call, state the GitHub
-   owner, the repository name and visibility, the Convex region or the organization default, and
-   that Samebase creates a Convex project and, when the Cloudflare account has a Workers Builds
-   token, a Worker.
-2. Call `repository_create` once. Pass a region or a build token only when the user names one.
+   owner, the repository name and visibility, and that the repository's GitHub Actions create a
+   Convex project and deploy the app.
+2. Call `repository_create` once.
 3. Poll only `repository_list` until source and provider setup are each `ready` or `failed`. Report
    the current state while setup runs, and report a failure as it is.
-4. When `pendingCloudflareSetup` is set, `ready` covers only GitHub and Convex. Report Cloudflare
-   setup as pending and link to [Cloudflare setup](https://samebase.com/docs/cloudflare-setup).
-   After the user finishes it, `repository_cloudflare_createWorker` completes the first app.
+4. `ready` means that the starter is seeded, not that the app is deployed. Call
+   `repository_getStatus` to see the first deployment.
 
 ## Confirm gated actions
 
-- `repository_cloudflare_connectWorker`, `repository_cloudflare_rotateConvexDeployKeys`,
-  `repository_retryProviderSetup`, and `repository_detachResource` first return `needs_confirmation`
-  and change nothing.
+- `repository_retryProviderSetup` first returns `needs_confirmation` and changes nothing.
 - Tell the user the returned effect and ask for approval. After the user approves, repeat the call
   with the same arguments and `confirmation`: the returned token and the exact acknowledgement
   sentence. Never send a confirmation that the user did not approve.
 - If the user declines or changes an argument, do not reuse the token. A changed request starts with
   a new first call.
-- Before `repository_cloudflare_createWorker`, `repository_cloudflare_configureBuilds`, or
-  `repository_convex_createProject`, state the repository, the resource, and the effect, and get
-  approval unless the request already approves it.
 
 ## Open the dashboard
 
@@ -70,15 +59,16 @@ description: >-
 - If the tool reports missing authorization or scope, ask,
   `Would you like me to start authorization with Samebase?` Start it only through the current
   client's plugin or connection flow, then call `account_createSignInLink` again.
-- Only the dashboard can remove a repository from Samebase, change a Convex code location, accept a
-  Worker or GitHub rename, and manage members, organization settings, billing, and provider
-  connections. Say so and offer to open the dashboard. Call `account_createSignInLink` only after
-  the user accepts, and do not claim that the operation finished.
+- Only the dashboard can remove a repository from Samebase, accept a GitHub rename, and manage
+  members, organization settings, billing, and provider connections. Say so and offer to open the
+  dashboard. Call `account_createSignInLink` only after the user accepts, and do not claim that the
+  operation finished.
 
 ## Verify the result
 
-- Call `repository_getStatus` for the builds, URLs, Convex deployments, checks, and pull requests of
-  a repository. Follow its attention items: each names the tool that fixes the problem.
+- Call `repository_getStatus` for the stacks, production and preview URLs, deployed commits, checks,
+  and pull requests of a repository. Follow its attention items: each says what to do about the
+  problem. A store that reports `unreadable` says nothing about what is deployed.
 - Ready setup, a requested build, a commit, or a push does not prove that the app is live. Report
   only verified state.
 - Never put credentials in Git, logs, screenshots, or responses.
