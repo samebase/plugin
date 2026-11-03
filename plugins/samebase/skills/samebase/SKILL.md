@@ -43,10 +43,9 @@ Pass `repository` as the GitHub full name, `owner/name`, or as the `repositoryId
 
 - `repository_retryProviderSetup` first returns `needs_confirmation` and changes nothing.
 - Tell the user the returned effect and ask for approval. After the user approves, repeat the call
-  with the same arguments and `confirmation`: the returned token and the exact acknowledgement
-  sentence. Never send a confirmation that the user did not approve.
-- If the user declines or changes an argument, do not reuse the token. A changed request starts with
-  a new first call.
+  with the same arguments and `confirmation`: the exact acknowledgement sentence. Never send a
+  confirmation that the user did not approve.
+- If the user declines, stop. A changed request starts with a new first call.
 
 ## Open the dashboard
 
