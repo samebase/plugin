@@ -22,6 +22,28 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2253: Prove the site for Google sign-in
+
+samebase.com gives a hub client only to a site that serves `/samebase-verification.json` with the
+repository's numeric GitHub ID, and `Convex.SharedHubClient` of `@samebase/alchemy-convex` 0.22.0
+takes `redirectUri` in place of `deployment`. An app on an older starter keeps its saved clients, so
+production keeps Google sign-in. A new deployment, such as a new pull request preview, gets guest
+sign-in until the app is updated.
+
+Relevant when `alchemy.run.ts` uses `Convex.SharedHubClient`. From one commit of
+[samebase/base](https://github.com/samebase/base):
+
+- Update `@samebase/alchemy-convex` to 0.22.0.
+- Add `scripts/write-samebase-verification.ts` and its test. Append
+  `&& node ./scripts/write-samebase-verification.ts dist/client` to the `--build` command of the
+  `deploy` script.
+- In `alchemy.run.ts`, give the `Deployment` row the `source`, pass
+  `redirectUri: Output.interpolate\`${deployment.siteUrl}/auth/hub/callback\``to the client, and remove`source`from the`Site`row, which keeps`env`.
+  Keep the row names: Alchemy destroys a row that leaves the stack.
+
+Verify that a pull request preview serves `/samebase-verification.json` and shows Sign in with
+Google.
+
 ## v2064: Use native Worker Previews
 
 The starter uses Cloudflare's separate production and Previews Base build settings. Both use
