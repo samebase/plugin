@@ -22,6 +22,22 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2261: Get Google sign-in from the identity hub
+
+`Convex.SharedHubClient` of `@samebase/alchemy-convex` 0.24.0 asks the identity hub at
+`auth.samebase.com` for a new client, so the repository needs no Samebase account. samebase.com no
+longer gives clients. On an older version, saved clients keep working, but a new deployment, such as
+a new pull request preview, gets guest sign-in.
+
+Relevant when `alchemy.run.ts` uses `Convex.SharedHubClient` and `package.json` has an older
+`@samebase/alchemy-convex`:
+
+- Update `@samebase/alchemy-convex` to 0.24.0. From 0.23.0, nothing else in the app changes. An
+  older version also needs the `alchemy` and Effect versions of
+  [samebase/base](https://github.com/samebase/base), which 0.23.0 requires.
+
+Verify that a new pull request preview shows Sign in with Google.
+
 ## v2253: Prove the site for Google sign-in
 
 samebase.com gives a hub client only to a site that serves `/samebase-verification.json` with the
