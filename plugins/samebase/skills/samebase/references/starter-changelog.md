@@ -22,6 +22,37 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2275: Google sign-in on a laptop, and no CONVEX_TEAM_ID
+
+`@samebase/alchemy-convex` 0.29.0 finds the Convex team from the credential, and a `dev-` stage of
+the stack gives the development deployment that `.env.local` selects a client of the identity hub.
+The site serves `/samebase-verification.json` from a Convex route, not from a file of the build.
+
+Relevant when `alchemy.run.ts` uses `Convex.SharedHubClient`. From commit
+[`6cde236`](https://github.com/samebase/base/commit/6cde2366d6817132cd2302065a39d74f7c5890fc) of
+[samebase/base](https://github.com/samebase/base):
+
+- Update `@samebase/alchemy-convex` to 0.29.0, and add the script `"hub": "alchemy deploy"`. Run
+  `pnpm install` after the steps below and commit `pnpm-lock.yaml`: the workflows install with
+  `--frozen-lockfile`.
+- Take `alchemy.run.ts`: the `dev-` stage, `Convex.state()` and `Convex.Project` with no `team`, and
+  `SAMEBASE_REPOSITORY_ID` in the `env` of the `Deployment` row. Keep the row names: Alchemy
+  destroys a row that leaves the stack.
+- Add `convex/samebaseVerification.ts` and its test, the `/samebase-verification.json` route in
+  `convex/http.ts`, and `SAMEBASE_REPOSITORY_ID: v.optional(v.string())` in the `env` of
+  `convex/convex.config.ts`. Remove `scripts/write-samebase-verification.ts`, its test, and its step
+  in the `deploy` script.
+- Take `patches/@convex-dev__auth@2.0.0-beta.0.patch` and its comment in `pnpm-workspace.yaml`, and
+  add `"http://localhost"` and `"http://127.0.0.1"` to `allowedRedirectOrigins` in `convex/auth.ts`.
+- Remove `CONVEX_TEAM_ID` from `.github/workflows/alchemy.yml` and `destroy.yml`, then delete the
+  repository variable.
+
+Verify that a pull request preview shows Sign in with Google. Then merge, so that production has the
+new code. On the laptop, push the new code to the development deployment with `pnpm run deploy:dev`:
+the `dev-` stage pushes no code, and the hub registers a client only on a site that serves the
+verification route. Then run `pnpm run hub --stage dev-<name>` and sign in with Google on
+`pnpm run dev`.
+
 ## v2261: Get Google sign-in from the identity hub
 
 `Convex.SharedHubClient` of `@samebase/alchemy-convex` 0.24.0 asks the identity hub at

@@ -1,6 +1,6 @@
 {
   "name": "samebase",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Build and manage repository-backed web apps with Samebase, GitHub, Convex, and Cloudflare.",
   "author": {
     "name": "Samebase",
