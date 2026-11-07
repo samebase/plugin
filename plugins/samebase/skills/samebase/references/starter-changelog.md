@@ -22,6 +22,31 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2301: Sign in through the hub's public clients
+
+On 2026-11-07 the identity hub at `auth.samebase.com` got two clients per provider. `google` and
+`github` are samebase.com's own, and an app signs in through them only when the hub's administrator
+grants them. Every app signs in through `google-apps` and `github-apps`, the public clients that
+Google and GitHub show as "Samebase". A client enrolled in `google` or `github` without a grant has
+no sign-in, and the hub refuses a new registration that names them.
+
+Relevant when `alchemy.run.ts` passes `connectors` to `Convex.SharedHubClient`. From commit
+[`24fab33`](https://github.com/samebase/base/commit/24fab332d0559fa2aa6b9c0e28be4aafcc2441ad) of
+[samebase/base](https://github.com/samebase/base):
+
+- In each `Convex.SharedHubClient` of `alchemy.run.ts`, replace `google` with `google-apps` and
+  `github` with `github-apps`, such as `["google-apps", "github-apps"]`. If `convex/auth.ts` names a
+  connector in its `authorizationEndpoint`, such as `/authorize?connector=google`, use the new name
+  there too.
+- The account key does not change. The id_token's `sub` is `google:<id>` or `github:<id>` through
+  either client of a provider, so existing users keep their accounts. Only an app whose profile
+  mapping compares the id_token's `connector` claim with `google` or `github` must compare it with
+  the new name.
+
+Verify that the pull request comment says `Sign-in with github-apps, google-apps: on`, or with the
+names that the app uses. Then merge, so that production gets a new client. On the laptop, run
+`pnpm run hub --stage dev-<name>` again after that: a development run reads the production client.
+
 ## v2297: Name the connectors of each hub client
 
 The identity hub at `auth.samebase.com` enrolls every client in the connectors that it signs in
