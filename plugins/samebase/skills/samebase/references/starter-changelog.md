@@ -22,6 +22,30 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2297: Name the connectors of each hub client
+
+The identity hub at `auth.samebase.com` enrolls every client in the connectors that it signs in
+through, and on 2026-11-07 it removed every client registered without them. An app on
+`@samebase/alchemy-convex` 0.32.0 or older has no working hub client: its Google sign-in fails, and
+its deploys stop at the hub client until the app has this change. The hub also shows its own page,
+which names the app, before Google or GitHub.
+
+Relevant when `alchemy.run.ts` uses `Convex.SharedHubClient`. From commit
+[`31113c0`](https://github.com/samebase/base/commit/31113c0a66147efdbcd6473e8145d4450c92e57b) of
+[samebase/base](https://github.com/samebase/base):
+
+- Update `@samebase/alchemy-convex` to 0.33.0. Run `pnpm install` and commit `pnpm-lock.yaml`. From
+  0.32.0, the team's Alchemy state store has version 6, and a repository of the same Convex team on
+  0.31.0 or older fails its deploys after one repository runs 0.32.0 or later: update them together.
+- Add `connectors` to each `Convex.SharedHubClient` in `alchemy.run.ts`. Use `["google", "github"]`
+  when the `authorizationEndpoint` in `convex/auth.ts` names no connector, as in the starter, where
+  the hub's page offers both. Otherwise use the names that it sends, such as `["google"]` for
+  `/authorize?connector=google`.
+
+Verify that the pull request comment says `Sign-in with github, google: on`, or with the names that
+the app uses. Then merge, so that production gets a new client. On the laptop, run
+`pnpm run hub --stage dev-<name>` again after that: a development run reads the production client.
+
 ## v2275: Google sign-in on a laptop, and no CONVEX_TEAM_ID
 
 `@samebase/alchemy-convex` 0.29.0 finds the Convex team from the credential, and a `dev-` stage of
