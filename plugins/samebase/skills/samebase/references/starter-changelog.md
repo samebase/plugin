@@ -22,6 +22,32 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2310: Name the hub, and keep the run record in the state
+
+On 2026-11-08 the identity hub at `auth.samebase.com` started to take a deploy's GitHub token only
+when the token's audience is the hub's issuer, `https://auth.samebase.com`.
+`@samebase/alchemy-convex` 0.34.0 asks for that audience and requires the hub in each
+`Convex.SharedHubClient`. Version 0.35.0 also moves the team's Convex state store to version 7, and
+keeps the run record only through `Convex.withRunRecord`.
+
+Relevant when `alchemy.run.ts` uses `Convex.SharedHubClient` or `Convex.state()`. From commit
+[`a3ad3a8`](https://github.com/samebase/base/commit/a3ad3a843067dbb09e4507d763ac4485b191b8dc) of
+[samebase/base](https://github.com/samebase/base):
+
+- Set `@samebase/alchemy-convex` to `0.35.0` in `package.json` and update the lockfile.
+- Give each `Convex.SharedHubClient` the hub:
+  `hub: { issuer: "https://auth.samebase.com", terms: "https://samebase.com/terms" }`. A hub of the
+  user's own goes here, with its issuer and the terms of its sign-in service.
+- Replace `state: Convex.state()` with `state: Convex.withRunRecord(Convex.state())`, so that
+  Samebase shows the app's deploys.
+- The first deploy on 0.35.0 moves the team's state store to version 7. From then on, a deploy of
+  the same Convex team on an older version fails, so update every app of the team on the same day.
+
+Saved hub clients already hold the hub's issuer, so the first deploy renews them and registers no
+new client. Verify that the pull request comment still says
+`Sign-in with github-apps, google-apps: on`, or with the names that the app uses, and that Samebase
+shows the preview after the deploy.
+
 ## v2301: Sign in through the hub's public clients
 
 On 2026-11-07 the identity hub at `auth.samebase.com` got two clients per provider. `google` and
