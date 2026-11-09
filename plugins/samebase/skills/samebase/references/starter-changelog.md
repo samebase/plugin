@@ -22,6 +22,29 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2326: A hub client lists its return addresses
+
+On 2026-11-09 both identity hubs moved to identity-broker 0.31.0: a client lists the return
+addresses it may name, and the hubs' clients were cleared, so an app has no sign-in until it
+registers again. `@samebase/alchemy-convex` 0.39.1 registers with the new body and cannot read a
+client that 0.38.0 saved in the state.
+
+Relevant when `alchemy.run.ts` passes `redirectUri` to `IdentityHub.Client`. From commit
+[`5e3cbea`](https://github.com/samebase/base/commit/5e3cbea64f4a4ed79111f9c24e1a05a4800b28a8) of
+[samebase/base](https://github.com/samebase/base):
+
+- Set `@samebase/alchemy-convex` to `0.39.1` in `package.json` and update the lockfile.
+- In each `IdentityHub.Client`, replace `redirectUri: x` with `redirectUris: [x]`.
+- Rename each `IdentityHub.Client` resource, such as `"HubClient"` to `"IdentityHubClient"`, and the
+  id in `IdentityHub.Client.read(...)` with it. The new name registers a fresh client and removes
+  the saved row of the old one, which this version cannot read.
+- `app` is optional: its default is the stack's path in the repository, `app` for a stack named
+  after it. Remove `app: "app"`. Keep any other value: it groups the app's clients at the hub.
+
+Verify that the pull request comment says `Sign-in with github, google: on`. Then merge, so that
+production gets its client. On the laptop, run the development client command again after that: a
+development run reads the production client.
+
 ## v2318: Sign in at the public hub
 
 On 2026-11-09 apps moved to Samebase's public identity hub, `https://id.samebase.com`, deployed from
