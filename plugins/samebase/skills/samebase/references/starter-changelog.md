@@ -22,6 +22,29 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2318: Sign in at the public hub
+
+On 2026-11-09 apps moved to Samebase's public identity hub, `https://id.samebase.com`, deployed from
+[samebase/identity-hub](https://github.com/samebase/identity-hub). `auth.samebase.com` is now
+samebase.com's own hub: its `google-apps` and `github-apps` are gone, and it refuses a new app.
+
+Relevant when `alchemy.run.ts` names `https://auth.samebase.com` or the connectors `google-apps` and
+`github-apps`. From commit
+[`be2c557`](https://github.com/samebase/base/commit/be2c557759af93f57ea1e7382265c57eb19389ae) of
+[samebase/base](https://github.com/samebase/base):
+
+- Set the hub of each hub client to
+  `{ issuer: "https://id.samebase.com", terms: "https://samebase.com/terms" }`.
+- Replace `google-apps` with `google` and `github-apps` with `github` in each `connectors` list. If
+  `convex/auth.ts` names a connector, such as `/authorize?connector=google-apps`, use the new name
+  there too.
+- The account key does not change: the id_token's `sub` is `google:<id>` or `github:<id>` at both
+  hubs, so existing users keep their accounts.
+
+Verify that the pull request comment says `Sign-in with github, google: on`. Then merge, so that
+production gets its client at the new hub. On the laptop, run the development client command again
+after that: a development run reads the production client.
+
 ## v2310: Name the hub, and keep the run record in the state
 
 On 2026-11-08 the identity hub at `auth.samebase.com` started to take a deploy's GitHub token only
