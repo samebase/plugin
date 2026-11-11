@@ -22,6 +22,74 @@ relevant, and preserve unrelated user changes.
 For a review of several apps, compare each repository independently. Do not reuse one app's starter
 build or relevance result for another app.
 
+## v2336: Hub clients register with RFC 7591, one function call per request, and cached build files
+
+This build has three changes. Apply each one that is relevant.
+
+### Hub clients register with RFC 7591
+
+On 2026-11-11 both identity hubs moved to identity-broker 0.33.0. A hub now registers clients only
+with the standard request `POST /register` (OAuth 2.0 Dynamic Client Registration, RFC 7591).
+`@samebase/alchemy-convex` 0.40.0 sends this request. An older version sends `POST /hub-clients`,
+which the hubs no longer serve. An app keeps the clients it has, so sign-in keeps working on
+production and on existing previews. A new preview or a new development machine cannot register
+until the app is on 0.40.0.
+
+Relevant when `package.json` sets `@samebase/alchemy-convex` below `0.40.0`. From commit
+[`6647ae8`](https://github.com/samebase/base/commit/6647ae8922bceb6d4e3ab2c73b778f8c8cecc3c5) of
+[samebase/base](https://github.com/samebase/base):
+
+- Set `@samebase/alchemy-convex` to `0.40.0` in `package.json` and update the lockfile.
+
+No prop of `IdentityHub.Client` changed. Verify that the pull request comment says
+`Sign-in with github, google: on`.
+
+### Serve the site with one function call per request
+
+`@samebase/convex-hosting` 0.15.0 sends the site's assets with the pushed code. A request to the
+site runs one function, the HTTP action. With 0.14.0 it also ran a component query. `routeAll` now
+takes one object, and `.convex-hosting/version.js` exports `assets` in place of `versionId`.
+`pnpm run deploy` writes that file.
+
+Relevant when `package.json` sets `@samebase/convex-hosting` below `0.15.0`. From commit
+[`921636e`](https://github.com/samebase/base/commit/921636e79e9e4c100ac2b8d162988f4b971df310) of
+[samebase/base](https://github.com/samebase/base):
+
+- Set `@samebase/convex-hosting` to `^0.15.0` in `package.json` and update the lockfile.
+- In `convex/http.ts`, replace `import { versionId } from "../.convex-hosting/version.js";` with
+  `import { assets } from "../.convex-hosting/version.js";`.
+- In `convex/http.ts`, replace `routeAll(http, components.hosting, versionId, server)` with
+  `routeAll({ http, component: components.hosting, assets, worker: server })`.
+
+Verify that the pull request preview serves the site.
+
+### Cache the build's hashed files for a year
+
+Vite names every file in `assets/` after its content. Without a `_headers` rule, convex-hosting
+answers these files with Cloudflare's default header, `public, max-age=0, must-revalidate`, so every
+request for one runs the site's HTTP action. Convex's front caches a response that carries a long
+`Cache-Control`, and answers a cached file without running a function.
+
+Relevant when `public/_headers` is missing or has no `/assets/*` rule. From commit
+[`d609663`](https://github.com/samebase/base/commit/d609663da10d4b338bcb98a7bed0fe90579784ab) of
+[samebase/base](https://github.com/samebase/base):
+
+- Add this rule to `public/_headers`, and create the file if it does not exist:
+
+  ```
+  # Vite names every file in assets/ after its content, so a browser and Convex's front may keep one
+  # for a year. Without this rule, every request for one runs the site's HTTP action.
+  /assets/*
+    Cache-Control: public, max-age=31536000, immutable
+  ```
+
+Keep this rule only when the build writes only content-named files into `assets/`. Files from
+`public/`, such as `favicon.svg`, land at the root and keep the default.
+
+Verify on the pull request preview: request one file of `assets/` twice with
+`curl -sI -H "Accept-Encoding: gzip" <preview site>/assets/<file>.js`. Each response has
+`Cache-Control: public, max-age=31536000, immutable`, and the second has `cf-cache-status: HIT`.
+
 ## v2326: A hub client lists its return addresses
 
 On 2026-11-09 both identity hubs moved to identity-broker 0.31.0: a client lists the return
